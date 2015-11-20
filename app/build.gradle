@@ -29,6 +29,7 @@ android {
         versionName System.getenv("VERSION_NAME") as String ?: "dev"
         versionCode System.getenv("VERSION_CODE") as Integer ?: 0
         project.archivesBaseName = appName + versionName
+        multiDexEnabled true
     }
     signingConfigs {
         release {
@@ -87,6 +88,8 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'net.danlew:android.joda:2.8.1'
+    compile 'com.google.android.gms:play-services:8.3.0'
+    compile 'com.google.android.gms:play-services-maps:8.3.0'
 }
 
 apt {
