@@ -11,14 +11,33 @@ import java.util.List;
 public class Event {
     private String name;
     private Location location;
-    private Date eventDate;
+    private long eventDateMilis;
     private String description;
     private List<User> guests;
+    private String eventType;
+    private int participantCount;
+
+    public int getParticipantCount() {
+        return participantCount;
+    }
+
+    public void setParticipantCount(int participantCount) {
+        this.participantCount = participantCount;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
     private User host;
     private int minParticipants;
     private int maxParticipants;
 
-    public double getDistance(Location loc){
+    public double getDistance(Location loc) {
         return location.distanceTo(loc);
     }
 
@@ -38,12 +57,12 @@ public class Event {
         this.location = location;
     }
 
-    public Date getEventDate() {
-        return eventDate;
+    public long getEventDateMilis() {
+        return eventDateMilis;
     }
 
-    public void setEventDate(Date eventDate) {
-        this.eventDate = eventDate;
+    public void setEventDateMilis(long eventDate) {
+        this.eventDateMilis = eventDate;
     }
 
     public String getDescription() {

@@ -6,7 +6,6 @@ import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
-import pl.siiletscode.droppr.model.Preferences;
 import pl.siiletscode.droppr.model.Preferences_;
 import pl.siiletscode.droppr.model.User;
 

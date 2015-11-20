@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 
@@ -27,6 +28,9 @@ public class DropprConnector {
     @RootContext
     public Context ctx;
 
+    @Bean
+    LoggedInUser loggedUser;
+
     @AfterInject
     void init(){
         initApiService();
@@ -36,6 +40,7 @@ public class DropprConnector {
 
         final RestAdapter adapter = new RestAdapter.Builder().
                 setLogLevel(RestAdapter.LogLevel.FULL).
+                setRequestInterceptor(new Interceptor()).
                 setEndpoint(ctx.getString(R.string.endpoint)).build();
         apiService = adapter.create(DropprAPI.class);
     }
@@ -131,7 +136,6 @@ public class DropprConnector {
     }
 
     private String getAuth() {
-
-        return null;
+        return loggedUser.getUser().getEmail() + ":" + loggedUser.getUser().getPasswordHash();
     }
 }
