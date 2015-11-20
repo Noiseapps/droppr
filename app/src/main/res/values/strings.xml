@@ -14,4 +14,11 @@
     <string name="logout">Wyloguj</string>
     <string name="settings">Ustawienia</string>
     <string name="selectSort">Sortuj</string>
+    <string name="distance">Odległość</string>
+    <string name="sportType">Typ aktywności</string>
+    <string name="participantCount">Ilość uczestników</string>
+    <string name="timeToStart">Czas do rozpoczęcia</string>
+    <string name="ascending">Rosnąco</string>
+    <string name="descending">Malejąco</string>
+    <string name="cancel">Anuluj</string>
 </resources>

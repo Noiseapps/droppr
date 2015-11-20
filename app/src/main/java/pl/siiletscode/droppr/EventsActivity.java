@@ -1,5 +1,6 @@
 package pl.siiletscode.droppr;
 
+import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
+import android.widget.RadioGroup;
 
 import com.orhanobut.logger.Logger;
 
@@ -49,6 +52,7 @@ public class EventsActivity extends AppCompatActivity {
     private int currentFragment;
     private String[] sorts;
     private int selectedSort;
+    private int selectedOrder;
 
 
     @AfterViews
@@ -108,29 +112,38 @@ public class EventsActivity extends AppCompatActivity {
     public void sort() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.selectSort);
-        builder.setSingleChoiceItems(sorts, selectedSort, (dialog, which) -> selectedSort = which);
-        builder.setPositiveButton(R.string.sort, (dialog, which) -> {
-            handleSortIssues(selectedSort);
+        builder.setView(R.layout.dialog_sort);
+        builder.setPositiveButton(R.string.sort, null);
+        builder.setNegativeButton(R.string.cancel, null);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
+            final RadioGroup typeGroup = (RadioGroup) alertDialog.findViewById(R.id.sortType);
+            selectedSort = typeGroup.getCheckedRadioButtonId();
+            final RadioGroup orderGroup = (RadioGroup) alertDialog.findViewById(R.id.sortOrder);
+            selectedOrder = orderGroup.getCheckedRadioButtonId();
+            handleSortIssues();
+            alertDialog.dismiss();
         });
-
+        alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> {
+            alertDialog.dismiss();
+        });
         builder.show();
     }
 
-    private void handleSortIssues(int which) {
-        selectedSort = which;
-        Comparator<Event> comparator = (lhs, rhs) -> 0;
-        switch (which) {
-            case 0:
-                sortByDistance();
+    private void handleSortIssues() {
+        final boolean ascending = selectedOrder == R.id.ascending;
+        switch (selectedSort) {
+            case R.id.distance:
+                sortByDistance(ascending);
                 break;
-            case 1:
-                sortByType();
+            case R.id.sportType:
+                sortByType(ascending);
                 break;
-            case 2:
-                sortByParticipantCount();
+            case R.id.participantCount:
+                sortByParticipantCount(ascending);
                 break;
-            case 3:
-                sortByTime();
+            case R.id.timeToStart:
+                sortByTime(ascending);
                 break;
             default:
                 break;
@@ -141,20 +154,43 @@ public class EventsActivity extends AppCompatActivity {
 
     }
 
-    private void sortByTime() {
-
+    private void sortByTime(boolean ascending) {
+        final Comparator<Event> comparator = (lhs, rhs) -> {
+            int result = (int) (lhs.getEventDate() - rhs.getEventDate());
+            if(!ascending) result *= -1;
+            return result;
+        };
+//        Collections.sort(eventList, comparator);
     }
 
-    private void sortByParticipantCount() {
+    private void sortByParticipantCount(boolean ascending) {
+        Comparator<Event> comparator = new Comparator<Event>() {
+            @Override
+            public int compare(Event lhs, Event rhs) {
+                int result = lhs.getGuests().size() - rhs.getGuests().size();
 
+                return 0;
+            }
+        };
     }
 
-    private void sortByType() {
-
+    private void sortByType(boolean ascending) {
+        Comparator<Event> comparator = new Comparator<Event>() {
+            @Override
+            public int compare(Event lhs, Event rhs) {
+//                boolean result = lhs.get
+                return 0;
+            }
+        };
     }
 
-    private void sortByDistance() {
-
+    private void sortByDistance(boolean ascending) {
+//        Comparator comparator = new Comparator() {
+//            @Override
+//            public int compare(Object lhs, Object rhs) {
+//                return 0;
+//            }
+//        }
     }
 
     @OptionsItem(R.id.actionSort)

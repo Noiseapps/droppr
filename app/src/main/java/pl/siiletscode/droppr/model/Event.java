@@ -11,7 +11,7 @@ import java.util.List;
 public class Event {
     private String name;
     private Location location;
-    private Date eventDate;
+    private long eventDate;
     private String description;
     private List<User> guests;
     private User host;
@@ -38,11 +38,11 @@ public class Event {
         this.location = location;
     }
 
-    public Date getEventDate() {
+    public long getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(Date eventDate) {
+    public void setEventDate(long eventDate) {
         this.eventDate = eventDate;
     }
 
