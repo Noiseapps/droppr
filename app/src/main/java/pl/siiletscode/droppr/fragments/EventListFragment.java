@@ -12,7 +12,10 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.List;
+
 import pl.siiletscode.droppr.R;
+import pl.siiletscode.droppr.model.Event;
 
 @EFragment(R.layout.fragment_event_list)
 public class EventListFragment extends Fragment {
@@ -40,4 +43,7 @@ public class EventListFragment extends Fragment {
         Logger.d("settings");
     }
 
+    public void setEvents(List<Event> eventList) {
+        // todo create adapter, display list
+    }
 }

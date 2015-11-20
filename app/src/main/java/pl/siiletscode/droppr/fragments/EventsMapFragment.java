@@ -14,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.orhanobut.logger.Logger;
 
 import org.androidannotations.annotations.AfterViews;
@@ -22,7 +23,10 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.SystemService;
 
+import java.util.List;
+
 import pl.siiletscode.droppr.R;
+import pl.siiletscode.droppr.model.Event;
 
 @EFragment(R.layout.fragment_event_map)
 public class EventsMapFragment extends Fragment implements LocationListener {
@@ -91,7 +95,13 @@ public class EventsMapFragment extends Fragment implements LocationListener {
     public void onProviderDisabled(String provider) {
     }
 
-    public void onSort() {
-
+    public void setEvents(List<Event> eventList) {
+        map.clear();
+        for (Event event : eventList) {
+            final MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.title(event.getName());
+            markerOptions.position(new LatLng(event.getLat(), event.getLon()));
+            map.addMarker(markerOptions);
+        }
     }
 }

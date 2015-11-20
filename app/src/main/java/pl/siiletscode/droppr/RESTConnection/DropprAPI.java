@@ -25,7 +25,7 @@ public interface DropprAPI {
     @GET("api/events/types")
     Observable<List<String>> getEventTypes();
 
-    @GET("/api/events/{id}/users")
+    @GET("/api/events/{id}/participants")
     Observable<List<User>> getEventGuests(@Path("id") int eventId);
 
     @GET("/api/users/{id}")

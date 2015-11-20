@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import com.orhanobut.logger.Logger;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
@@ -27,12 +28,17 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
+import pl.siiletscode.droppr.RESTConnection.DropprConnector;
 import pl.siiletscode.droppr.fragments.EventListFragment;
 import pl.siiletscode.droppr.fragments.EventListFragment_;
 import pl.siiletscode.droppr.fragments.EventsMapFragment;
 import pl.siiletscode.droppr.fragments.EventsMapFragment_;
 import pl.siiletscode.droppr.model.Event;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_events)
 @OptionsMenu(R.menu.menu_events)
@@ -53,10 +59,17 @@ public class EventsActivity extends AppCompatActivity {
     private String[] sorts;
     private int selectedSort;
     private int selectedOrder;
-
+    @Bean
+    public DropprConnector connector;
+    private List<Event> eventList;
 
     @AfterViews
     void init() {
+        connector.getEventList().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(EventsActivity.this::initList);
+    }
+
+    private void initList(List<Event> events) {
+        eventList = events;
         sorts = getResources().getStringArray(R.array.sorts);
         setSupportActionBar(toolbar);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -78,6 +91,7 @@ public class EventsActivity extends AppCompatActivity {
             }
         });
         tabLayout.setupWithViewPager(mViewPager);
+        fillAdapter();
     }
 
     @Override
@@ -148,40 +162,42 @@ public class EventsActivity extends AppCompatActivity {
             default:
                 break;
         }
-//        final List<Event> issues = new ArrayList<>(this.events);
-//        Collections.sort(issues, comparator);
-//        onListFiltered(issues);
 
     }
 
     private void sortByTime(boolean ascending) {
         final Comparator<Event> comparator = (lhs, rhs) -> {
-            int result = (int) (lhs.getEventDate() - rhs.getEventDate());
+            int result = (int) (lhs.getEventDateMilis() - rhs.getEventDateMilis());
             if(!ascending) result *= -1;
             return result;
         };
-//        Collections.sort(eventList, comparator);
+        Collections.sort(eventList, comparator);
+        fillAdapter();
+    }
+
+    private void fillAdapter() {
+        listFragment.setEvents(eventList);
+        mapFragment.setEvents(eventList);
     }
 
     private void sortByParticipantCount(boolean ascending) {
-        Comparator<Event> comparator = new Comparator<Event>() {
-            @Override
-            public int compare(Event lhs, Event rhs) {
-                int result = lhs.getGuests().size() - rhs.getGuests().size();
-
-                return 0;
-            }
+        final Comparator<Event> comparator = (lhs, rhs) -> {
+            int result = lhs.getParticipantCount() - rhs.getParticipantCount();
+            if(!ascending) result *= -1;
+            return result;
         };
+        Collections.sort(eventList, comparator);
+        fillAdapter();
     }
 
     private void sortByType(boolean ascending) {
-        Comparator<Event> comparator = new Comparator<Event>() {
-            @Override
-            public int compare(Event lhs, Event rhs) {
-//                boolean result = lhs.get
-                return 0;
-            }
+        final Comparator<Event> comparator = (lhs, rhs) -> {
+            int result = lhs.getEventType().compareTo(rhs.getEventType());
+            if(!ascending) result *= -1;
+            return result;
         };
+        Collections.sort(eventList, comparator);
+        fillAdapter();
     }
 
     private void sortByDistance(boolean ascending) {
@@ -192,13 +208,6 @@ public class EventsActivity extends AppCompatActivity {
 //            }
 //        }
     }
-
-    @OptionsItem(R.id.actionSort)
-    void onSort() {
-        listFragment.onSort();
-        mapFragment.onSort();
-    }
-
     @OptionsItem(R.id.actionSettings)
     void onShowSettings() {
         Logger.d("settings");
