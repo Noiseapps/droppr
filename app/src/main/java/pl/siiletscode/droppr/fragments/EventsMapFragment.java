@@ -25,7 +25,6 @@ import org.androidannotations.annotations.SystemService;
 import pl.siiletscode.droppr.R;
 
 @EFragment(R.layout.fragment_event_map)
-@OptionsMenu(R.menu.menu_events_map)
 public class EventsMapFragment extends Fragment implements LocationListener {
 
     public static final float ZOOM = 16f;
@@ -66,13 +65,13 @@ public class EventsMapFragment extends Fragment implements LocationListener {
     }
 
     @OptionsItem(R.id.actionFilter)
-    void onFilter() {
-
+    public void onFilter() {
+        Logger.d("filter");
     }
 
     @OptionsItem(R.id.actionSettings)
     void onShowSettings() {
-
+        Logger.d("settings");
     }
 
     @Override
@@ -90,5 +89,9 @@ public class EventsMapFragment extends Fragment implements LocationListener {
 
     @Override
     public void onProviderDisabled(String provider) {
+    }
+
+    public void onSort() {
+
     }
 }
