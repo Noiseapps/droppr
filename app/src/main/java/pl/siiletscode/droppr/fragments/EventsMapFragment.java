@@ -1,7 +1,5 @@
 package pl.siiletscode.droppr.fragments;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -20,6 +18,7 @@ import com.orhanobut.logger.Logger;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.SystemService;
 
@@ -29,6 +28,9 @@ import pl.siiletscode.droppr.R;
 @OptionsMenu(R.menu.menu_events_map)
 public class EventsMapFragment extends Fragment implements LocationListener {
 
+    public static final float ZOOM = 16f;
+    public static final float TILT = 0f;
+    public static final float BEARING = 0f;
     SupportMapFragment mapFragment;
 
     @SystemService
@@ -54,9 +56,23 @@ public class EventsMapFragment extends Fragment implements LocationListener {
     private void onMapReady(GoogleMap map) {
         this.map = map;
         map.setMyLocationEnabled(true);
-        final CameraPosition position = new CameraPosition(new LatLng(55.2f, 18.4f), 12f, 0f, 0f);
-        final CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
-        map.moveCamera(update);
+        final Location myLocation = map.getMyLocation();
+        map.moveCamera(CameraUpdateFactory.zoomTo(ZOOM));
+        if(myLocation != null) {
+            final LatLng target = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+            final CameraUpdate update = CameraUpdateFactory.newLatLng(target);
+            map.moveCamera(update);
+        }
+    }
+
+    @OptionsItem(R.id.actionFilter)
+    void onFilter() {
+
+    }
+
+    @OptionsItem(R.id.actionSettings)
+    void onShowSettings() {
+
     }
 
     @Override
@@ -66,16 +82,13 @@ public class EventsMapFragment extends Fragment implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-
     }
 }

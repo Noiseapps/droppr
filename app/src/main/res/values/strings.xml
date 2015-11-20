@@ -12,4 +12,5 @@
     <string name="sort">Sortuj</string>
     <string name="filter">Filtruj</string>
     <string name="logout">Wyloguj</string>
+    <string name="settings">Ustawienia</string>
 </resources>

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
@@ -21,6 +22,21 @@ public class EventListFragment extends Fragment {
     @AfterViews
     void init() {
         eventsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @OptionsItem(R.id.actionFilter)
+    void onFilter() {
+
+    }
+
+    @OptionsItem(R.id.actionSort)
+    void onSort() {
+
+    }
+
+    @OptionsItem(R.id.actionSettings)
+    void onShowSettings() {
+
     }
 
 }
