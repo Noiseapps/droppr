@@ -11,12 +11,14 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     public TextView title;
     public TextView distance;
     public TextView date;
+    public TextView type;
 
     public RecyclerViewHolder(View itemView) {
         super(itemView);
         title = (TextView) itemView.findViewById(R.id.eventNameText);
         distance = (TextView) itemView.findViewById(R.id.distanceFromUser);
         date = (TextView) itemView.findViewById(R.id.eventDate);
+        type = (TextView) itemView.findViewById(R.id.eventType);
     }
 
 

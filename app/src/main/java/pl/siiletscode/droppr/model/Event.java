@@ -3,6 +3,8 @@ package pl.siiletscode.droppr.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
  * Created by Walen on 2015-11-20.
  */
 public class Event implements Parcelable {
+    @SerializedName("_id")
     private String id;
     private String name;
     private String eventType;

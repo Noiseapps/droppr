@@ -26,6 +26,11 @@ public class Location implements Parcelable {
     public Location() {
     }
 
+    public Location(double lat, double lng) {
+        this.lat = Double.toString(lat);
+        this.lng = Double.toString(lng);
+    }
+
     @Override
     public int describeContents() {
         return 0;

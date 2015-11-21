@@ -112,7 +112,6 @@ public class EventsMapFragment extends Fragment implements LocationListener {
 
     public void setEvents(List<Event> eventList) {
         this.eventList = eventList;
-        showMarkers();
     }
 
     private void showMarkers() {

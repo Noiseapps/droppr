@@ -145,6 +145,7 @@ public class LoginFragment extends Fragment implements SignInActivity.ActionRece
 
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
+        hideProgress();
         for (ValidationError error : errors) {
             ((EditText) error.getView()).setError(error.getCollatedErrorMessage(getActivity()));
         }

@@ -3,24 +3,44 @@ package pl.siiletscode.droppr.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Walen on 2015-11-20.
- */
+import com.google.gson.annotations.SerializedName;
+
 public class User implements Parcelable {
 
-    public int getId() {
-        return id;
-    }
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    private int id;
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+    @SerializedName("_id")
+    private String id;
     private String name;
     private String surname;
     private String email;
     private String passwordHash;
+
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.surname = in.readString();
+        this.email = in.readString();
+        this.passwordHash = in.readString();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -72,31 +92,10 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.surname);
         dest.writeString(this.email);
         dest.writeString(this.passwordHash);
     }
-
-    public User() {
-    }
-
-    protected User(Parcel in) {
-        this.id = in.readInt();
-        this.name = in.readString();
-        this.surname = in.readString();
-        this.email = in.readString();
-        this.passwordHash = in.readString();
-    }
-
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
-        public User createFromParcel(Parcel source) {
-            return new User(source);
-        }
-
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 }
