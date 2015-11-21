@@ -7,6 +7,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,6 +17,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.orhanobut.logger.Logger;
 
@@ -27,6 +29,8 @@ import org.androidannotations.annotations.SystemService;
 
 import java.util.List;
 
+import pl.siiletscode.droppr.EventDetailsActivity;
+import pl.siiletscode.droppr.EventDetailsActivity_;
 import pl.siiletscode.droppr.R;
 import pl.siiletscode.droppr.model.Event;
 
@@ -120,7 +124,21 @@ public class EventsMapFragment extends Fragment implements LocationListener {
             final MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.title(event.getName());
             markerOptions.position(new LatLng(event.getLat(), event.getLng()));
+
             map.addMarker(markerOptions);
         }
+
+        map.setOnMarkerClickListener(marker -> {
+            for (Event event : eventList) {
+                final LatLng markerPosition = marker.getPosition();
+                final LatLng eventPosition = new LatLng(event.getLat(), event.getLng());
+
+                if(markerPosition.equals(eventPosition)) {
+                    EventDetailsActivity_.intent(getActivity()).event(event).start();
+                    return true;
+                }
+            }
+            return false;
+        });
     }
 }

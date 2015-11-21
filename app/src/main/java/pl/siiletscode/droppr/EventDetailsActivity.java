@@ -5,7 +5,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -56,6 +58,8 @@ public class EventDetailsActivity extends AppCompatActivity {
     @ViewById
     TextView eventDistance;
     @ViewById
+    ProgressBar progressBar;
+    @ViewById
     TextView ownerName;
     @ViewById
     ListView guestList;
@@ -81,6 +85,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     }
 
     void initGuestList(EventParticipants users) {
+        progressBar.setVisibility(View.GONE);
         participants = users;
         User[] usersArray = new User[participants.getParticipants().size()];
         usersArray = participants.getParticipants().toArray(usersArray);
@@ -96,6 +101,9 @@ public class EventDetailsActivity extends AppCompatActivity {
         LocationManager locationManager = (LocationManager) this.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         try {
             userLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(userLocation == null) {
+                userLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
         }catch(SecurityException ex) {
 
         }

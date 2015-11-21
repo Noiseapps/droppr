@@ -91,8 +91,7 @@ public class EventsActivity extends AppCompatActivity {
 
     private Subscription downloadEvents() {
         showProgress();
-        return connector.
-                getEventList().
+        return connector.getEventList().
                 subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread())
                 .subscribe(EventsActivity.this::initList, this::onDownloadFailed, this::hideProgress);
@@ -117,31 +116,44 @@ public class EventsActivity extends AppCompatActivity {
     private void onDownloadFailed(Throwable throwable) {
         Logger.e(throwable, throwable.getMessage());
         hideProgress();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.failedDownloadingData).
+                setMessage(R.string.failedDownloadingMsg).
+                setPositiveButton(R.string.retry, (dialog, which) -> downloadEvents()).
+                setNegativeButton(R.string.cancel, (dialog1, which1) -> {
+                    dialog1.dismiss();
+                    finish();
+                });
+        builder.setCancelable(false);
+        builder.show();
     }
 
     private void initList(List<Event> events) {
         eventList = events;
-        sorts = getResources().getStringArray(R.array.sorts);
-        setSupportActionBar(toolbar);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if(mViewPager.getAdapter() == null) {
 
-            }
+            sorts = getResources().getStringArray(R.array.sorts);
+            setSupportActionBar(toolbar);
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            @Override
-            public void onPageSelected(int position) {
-                invalidateMenu(position);
-            }
+                }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+                @Override
+                public void onPageSelected(int position) {
+                    invalidateMenu(position);
+                }
 
-            }
-        });
-        tabLayout.setupWithViewPager(mViewPager);
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+            tabLayout.setupWithViewPager(mViewPager);
+        }
         fillAdapter();
     }
 
@@ -262,6 +274,9 @@ public class EventsActivity extends AppCompatActivity {
         Location lastKnownLocation = new Location("");
         try {
             lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(lastKnownLocation == null) {
+                lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
         } catch (SecurityException e){}
 
         final Location finalLastKnownLocation = lastKnownLocation;

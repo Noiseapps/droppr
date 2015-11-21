@@ -46,4 +46,7 @@
     <string name="newEvent">Nowe wydarzenie</string>
     <string name="eventDetails">Szczegóły wydarzenia</string>
     <string name="refresh">Odśwież</string>
+    <string name="retry">Ponów</string>
+    <string name="failedDownloadingMsg">Nie udało się pobrać wydarzeń. Prosimy spróbować później.</string>
+    <string name="failedDownloadingData">Błąd pobierania danych</string>
 </resources>

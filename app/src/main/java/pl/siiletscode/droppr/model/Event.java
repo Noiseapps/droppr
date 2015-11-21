@@ -105,6 +105,9 @@ public class Event implements Parcelable {
     }
 
     public double getDistance(android.location.Location loc) {
+        if(loc == null) {
+            return -1;
+        }
         android.location.Location location = new android.location.Location("");
         location.setLatitude(this.getLat());
         location.setLongitude(this.getLng());

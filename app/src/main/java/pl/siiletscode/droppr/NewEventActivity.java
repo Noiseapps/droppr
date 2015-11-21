@@ -2,6 +2,8 @@ package pl.siiletscode.droppr;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.location.LocationManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -140,6 +142,15 @@ public class NewEventActivity extends AppCompatActivity implements DatePickerDia
                 NewEventActivity.this.latLng = marker.getPosition();
             }
         });
+
+        LocationManager locationManager = (LocationManager) this.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        try {
+            android.location.Location userLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(userLocation == null) {
+                userLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
+            map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(userLocation.getLatitude(), userLocation.getLongitude())));
+        } catch(SecurityException ex) {}
     }
 
     private void setMapUiSettings(GoogleMap map) {
@@ -163,7 +174,6 @@ public class NewEventActivity extends AppCompatActivity implements DatePickerDia
             event.setHost(loggedInUser.getUser().getId());
             event.setLat(latLng.latitude);
             event.setLng(latLng.longitude);
-//            event.setLocation(new Location(latLng.latitude, latLng.longitude));
             connector.createEvent(event).
                     subscribeOn(Schedulers.io()).
                     observeOn(AndroidSchedulers.mainThread()).
@@ -180,7 +190,6 @@ public class NewEventActivity extends AppCompatActivity implements DatePickerDia
     private void onEventCreated(Event event) {
         EventDetailsActivity_.intent(this).event(event).start();
     }
-
 
     @OptionsItem(android.R.id.home)
     void onHome() {
