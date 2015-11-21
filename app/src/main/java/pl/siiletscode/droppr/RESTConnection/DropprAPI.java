@@ -4,6 +4,7 @@ import java.util.List;
 
 import pl.siiletscode.droppr.model.Event;
 import pl.siiletscode.droppr.model.User;
+import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -17,7 +18,7 @@ import rx.Observable;
  */
 public interface DropprAPI {
     @POST("/api/users")
-    void addUser(@Body String email, @Body String passwordHash);
+    Observable<User> addUser(@Body String email, @Body String passwordHash);
 
     @GET("/api/events")
     Observable<List<Event>> getEventList();

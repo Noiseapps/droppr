@@ -1,17 +1,16 @@
 package pl.siiletscode.droppr;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.View;
 import android.widget.RadioGroup;
 
 import com.orhanobut.logger.Logger;
@@ -25,19 +24,19 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import pl.siiletscode.droppr.RESTConnection.DropprConnector;
+import pl.siiletscode.droppr.RESTConnection.LoggedInUser;
 import pl.siiletscode.droppr.fragments.EventListFragment;
 import pl.siiletscode.droppr.fragments.EventListFragment_;
 import pl.siiletscode.droppr.fragments.EventsMapFragment;
 import pl.siiletscode.droppr.fragments.EventsMapFragment_;
 import pl.siiletscode.droppr.model.Event;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_events)
@@ -45,6 +44,7 @@ import rx.schedulers.Schedulers;
 public class EventsActivity extends AppCompatActivity {
 
     public static final int NEW_EVENT_REQUEST = 1804;
+    public static final int LOGIN_REQUEST = 3204;
     private EventListFragment listFragment;
     private EventsMapFragment mapFragment;
     @ViewById
@@ -61,11 +61,57 @@ public class EventsActivity extends AppCompatActivity {
     private int selectedOrder;
     @Bean
     public DropprConnector connector;
+    @Bean
+    public LoggedInUser userStorage;
     private List<Event> eventList;
+    private ProgressDialog progressDialog;
 
     @AfterViews
     void init() {
-        connector.getEventList().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(EventsActivity.this::initList);
+        if(userStorage.getUser().getEmail() == null) {
+            SignInActivity_.intent(this).startForResult(LOGIN_REQUEST);
+        } else {
+            downloadEvents();
+        }
+    }
+
+    @OnActivityResult(LOGIN_REQUEST)
+    void onLoginActivityReturned(int result) {
+        if(result == RESULT_OK) {
+            downloadEvents();
+        } else {
+            finish();
+        }
+    }
+
+    private Subscription downloadEvents() {
+        showProgress();
+        return connector.
+                getEventList().
+                subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread())
+                .subscribe(EventsActivity.this::initList, this::onDownloadFailed, this::hideProgress);
+    }
+
+    private void showProgress() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(R.string.downloading);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+    }
+
+    private void hideProgress() {
+        if(progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+    }
+
+    private void onDownloadFailed(Throwable throwable) {
+        Logger.e("DOWNLOAD failed");
+        hideProgress();
     }
 
     private void initList(List<Event> events) {

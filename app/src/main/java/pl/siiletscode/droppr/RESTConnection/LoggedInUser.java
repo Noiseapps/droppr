@@ -31,6 +31,7 @@ public class LoggedInUser {
 
     public void setUser(User user) {
         this.user = user;
+        prefs.savedUser().put(gson.toJson(user));
     }
 
 
