@@ -110,7 +110,7 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     private void onDownloadFailed(Throwable throwable) {
-        Logger.e("DOWNLOAD failed");
+        Logger.e(throwable, throwable.getMessage());
         hideProgress();
     }
 
@@ -176,16 +176,18 @@ public class EventsActivity extends AppCompatActivity {
         builder.setPositiveButton(R.string.sort, null);
         builder.setNegativeButton(R.string.cancel, null);
         final AlertDialog alertDialog = builder.create();
-        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
-            final RadioGroup typeGroup = (RadioGroup) alertDialog.findViewById(R.id.sortType);
-            selectedSort = typeGroup.getCheckedRadioButtonId();
-            final RadioGroup orderGroup = (RadioGroup) alertDialog.findViewById(R.id.sortOrder);
-            selectedOrder = orderGroup.getCheckedRadioButtonId();
-            handleSortIssues();
-            alertDialog.dismiss();
-        });
-        alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> {
-            alertDialog.dismiss();
+        alertDialog.setOnShowListener(dialog -> {
+            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
+                final RadioGroup typeGroup = (RadioGroup) alertDialog.findViewById(R.id.sortType);
+                selectedSort = typeGroup.getCheckedRadioButtonId();
+                final RadioGroup orderGroup = (RadioGroup) alertDialog.findViewById(R.id.sortOrder);
+                selectedOrder = orderGroup.getCheckedRadioButtonId();
+                handleSortIssues();
+                alertDialog.dismiss();
+            });
+            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> {
+                alertDialog.dismiss();
+            });
         });
         builder.show();
     }
@@ -213,7 +215,7 @@ public class EventsActivity extends AppCompatActivity {
 
     private void sortByTime(boolean ascending) {
         final Comparator<Event> comparator = (lhs, rhs) -> {
-            int result = (int) (lhs.getEventDateMilis() - rhs.getEventDateMilis());
+            int result = (int) (lhs.getEventTime().compareTo(rhs.getEventTime()));
             if(!ascending) result *= -1;
             return result;
         };
@@ -228,7 +230,7 @@ public class EventsActivity extends AppCompatActivity {
 
     private void sortByParticipantCount(boolean ascending) {
         final Comparator<Event> comparator = (lhs, rhs) -> {
-            int result = lhs.getParticipantCount() - rhs.getParticipantCount();
+            int result = lhs.getGuests().length - rhs.getGuests().length;
             if(!ascending) result *= -1;
             return result;
         };

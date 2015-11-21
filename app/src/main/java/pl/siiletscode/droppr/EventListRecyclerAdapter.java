@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeField;
+import org.joda.time.format.DateTimeFormat;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,7 +46,7 @@ public class EventListRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewH
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.date.setText(DateFormat.getDateTimeInstance().format(new Date(eventList.get(position).getEventDateMilis())).toString());
+        holder.date.setText(eventList.get(position).getEventTime().toString(DateTimeFormat.forPattern("dd-MM-yyyy HH:mm")));
         Location loc = new Location("");
         loc.setLatitude(0.0);
         loc.setLongitude(0.0);
