@@ -8,17 +8,19 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/newEventName" />
+        android:id="@+id/newEventName"
+        android:hint="Nazwa wydarzenia" />
 
-    <EditText
-        android:layout_width="wrap_content"
+    <Spinner
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/newEventDescription" />
+        android:id="@+id/newEventType"
+        android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose date"
+        android:text="Wybierz datę"
         android:id="@+id/eventAddDateButton" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"

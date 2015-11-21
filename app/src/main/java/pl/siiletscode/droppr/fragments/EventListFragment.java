@@ -16,6 +16,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
+import pl.siiletscode.droppr.EventDetailsActivity_;
 import pl.siiletscode.droppr.EventListRecyclerAdapter;
 import pl.siiletscode.droppr.R;
 import pl.siiletscode.droppr.model.Event;
@@ -68,6 +69,6 @@ public class EventListFragment extends Fragment {
     }
 
     private void showEvent(Event event) {
-        // todo open activity
+        EventDetailsActivity_.intent(this).start();
     }
 }

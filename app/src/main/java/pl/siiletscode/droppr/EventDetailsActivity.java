@@ -1,9 +1,6 @@
 package pl.siiletscode.droppr;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
@@ -25,11 +22,10 @@ import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.ViewById;
 
 import java.text.DateFormat;
-import java.util.Date;
-import java.util.List;
 
 import pl.siiletscode.droppr.RESTConnection.DropprConnector;
 import pl.siiletscode.droppr.model.Event;
+import pl.siiletscode.droppr.model.EventParticipants;
 import pl.siiletscode.droppr.model.User;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -58,6 +54,8 @@ public class EventDetailsActivity extends AppCompatActivity {
     @FragmentById
     SupportMapFragment mapFragment;
 
+    private EventParticipants participants;
+
     @Extra
     Event event;
 
@@ -68,18 +66,19 @@ public class EventDetailsActivity extends AppCompatActivity {
         connector.getEventGuests(event.getId()).
                 subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread())
-                .subscribe(users -> initGuestList(users));
+                .subscribe(this::initGuestList);
     }
 
-    void initGuestList(List<User> users) {
-        event.setGuests(users);
-        ParticipantListAdapter adapter = new ParticipantListAdapter(this, android.R.id.text1, (User[]) event.getGuests().toArray());
+    void initGuestList(EventParticipants users) {
+        participants = users;
+        ParticipantListAdapter adapter = new ParticipantListAdapter(this, android.R.id.text1, (User[]) users.getParticipants().toArray());
         guestList.setAdapter(adapter);
-        eventDateText.setText(DateFormat.getDateTimeInstance().format(new Date(event.getEventDateMilis())));
+        eventDateText.setText(DateFormat.getDateTimeInstance().format(event.getEventTime()));
+        ownerName.setText(participants.getHost().getName() + " " + participants.getHost().getSurname());
         Location loc = new Location("");
         Location userLocation = new Location("");
-        loc.setLongitude(event.getLon());
-        loc.setLatitude(event.getLat());
+        loc.setLongitude(event.getLocation().getLng());
+        loc.setLatitude(event.getLocation().getLat());
         LocationManager locationManager = (LocationManager) this.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         try {
             userLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -100,7 +99,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         map.clear();
         final MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.title(event.getName());
-        markerOptions.position(new LatLng(event.getLat(), event.getLon()));
+        markerOptions.position(new LatLng(event.getLocation().getLat(), event.getLocation().getLng()));
         map.addMarker(markerOptions);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(markerOptions.getPosition(), ZOOM));
     }
