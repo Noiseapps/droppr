@@ -37,4 +37,5 @@
     <string name="registering">Tworzenie konta…</string>
     <string name="failedToLogin">Nie powiodło się logowanie</string>
     <string name="loggingIn">Trwa logowanie…</string>
+    <string name="noItems">Brak wydarzeń w pobliżu</string>
 </resources>

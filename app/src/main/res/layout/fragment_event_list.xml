@@ -8,4 +8,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/eventsList"
         android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/emptyView"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:drawableTop="@drawable/ic_error_big"
+        android:alpha=".5"
+        android:text="@string/noItems"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </FrameLayout>

@@ -17,10 +17,13 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.EditorAction;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import pl.siiletscode.droppr.R;
@@ -28,6 +31,7 @@ import pl.siiletscode.droppr.RESTConnection.DropprConnector;
 import pl.siiletscode.droppr.RESTConnection.LoggedInUser;
 import pl.siiletscode.droppr.SignInActivity;
 import pl.siiletscode.droppr.model.Event;
+import pl.siiletscode.droppr.model.User;
 import pl.siiletscode.droppr.util.SignInCallbacks;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -94,6 +98,7 @@ public class LoginFragment extends Fragment implements SignInActivity.ActionRece
     }
 
     @Override
+    @EditorAction(R.id.password)
     public void onFabClicked() {
         showProgress();
         validator.validate();
@@ -101,10 +106,30 @@ public class LoginFragment extends Fragment implements SignInActivity.ActionRece
 
     @Override
     public void onValidationSucceeded() {
+        final User user = new User();
+        user.setEmail(email.getText().toString().trim());
+        user.setPasswordHash(md5(password.getText().toString().trim()));
+        loggedInUser.setUser(user);
         connector.getEventList().
                 subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread()).
                 subscribe(this::loginSucceeded, this::loginFailed);
+    }
+
+    public String md5(String s) {
+        try {
+            final MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            final StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest)
+                hexString.append(Integer.toHexString(0xFF & aMessageDigest));
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     private void loginFailed(Throwable throwable) {
