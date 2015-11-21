@@ -87,8 +87,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         ownerName.setText(participants.getHost().getName() + " " + participants.getHost().getSurname());
         Location loc = new Location("");
         Location userLocation = new Location("");
-        loc.setLongitude(event.getLocation().getLng());
-        loc.setLatitude(event.getLocation().getLat());
+        loc.setLongitude(event.getLng());
+        loc.setLatitude(event.getLat());
         LocationManager locationManager = (LocationManager) this.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         try {
             userLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -108,7 +108,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     public void setEvent(Event event) {
         final MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.title(event.getName());
-        markerOptions.position(new LatLng(event.getLocation().getLat(), event.getLocation().getLng()));
+        markerOptions.position(new LatLng(event.getLat(), event.getLng()));
         map.addMarker(markerOptions);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(markerOptions.getPosition(), ZOOM));
     }

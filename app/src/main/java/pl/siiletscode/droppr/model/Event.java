@@ -19,7 +19,25 @@ public class Event implements Parcelable {
     private String eventType;
     private String createdAt;
     private String eventTime;
-    private Location location;
+    private String lat;
+    private String lng;
+
+    public double getLat() {
+        return Double.parseDouble(lat);
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return Double.parseDouble(lng);
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
     private String host;
     private String[] guests;
 
@@ -63,14 +81,6 @@ public class Event implements Parcelable {
         this.eventTime = eventTime;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
     public String getHost() {
         return host;
     }
@@ -89,9 +99,12 @@ public class Event implements Parcelable {
 
     public double getDistance(android.location.Location loc) {
         android.location.Location location = new android.location.Location("");
-        location.setLatitude(this.location.getLat());
-        location.setLongitude(this.location.getLng());
+        location.setLatitude(this.getLat());
+        location.setLongitude(this.getLng());
         return location.distanceTo(loc);
+    }
+
+    public Event() {
     }
 
     @Override
@@ -106,12 +119,10 @@ public class Event implements Parcelable {
         dest.writeString(this.eventType);
         dest.writeString(this.createdAt);
         dest.writeString(this.eventTime);
-        dest.writeParcelable(this.location, 0);
+        dest.writeString(this.lat);
+        dest.writeString(this.lng);
         dest.writeString(this.host);
         dest.writeStringArray(this.guests);
-    }
-
-    public Event() {
     }
 
     protected Event(Parcel in) {
@@ -120,12 +131,13 @@ public class Event implements Parcelable {
         this.eventType = in.readString();
         this.createdAt = in.readString();
         this.eventTime = in.readString();
-        this.location = in.readParcelable(Location.class.getClassLoader());
+        this.lat = in.readString();
+        this.lng = in.readString();
         this.host = in.readString();
         this.guests = in.createStringArray();
     }
 
-    public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
         public Event createFromParcel(Parcel source) {
             return new Event(source);
         }

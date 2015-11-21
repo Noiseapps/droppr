@@ -160,7 +160,8 @@ public class NewEventActivity extends AppCompatActivity implements DatePickerDia
             event.setEventTime(dateTime.toString());
             event.setEventType(eventType);
             event.setHost(loggedInUser.getUser().getId());
-            event.setLocation(new Location(latLng.latitude, latLng.longitude));
+            event.setLat(String.valueOf(latLng.latitude));
+            event.setLng(String.valueOf(latLng.longitude));
             connector.createEvent(event).
                     subscribeOn(Schedulers.io()).
                     observeOn(AndroidSchedulers.mainThread()).
