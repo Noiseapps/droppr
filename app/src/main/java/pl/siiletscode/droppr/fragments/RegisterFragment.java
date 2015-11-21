@@ -132,7 +132,6 @@ public class RegisterFragment extends Fragment implements SignInActivity.ActionR
     private void onSuccess(User user) {
         hideProgress();
         Logger.d(user.toString());
-        Logger.d("Account created");
         loggedInUser.setUser(user);
         getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();

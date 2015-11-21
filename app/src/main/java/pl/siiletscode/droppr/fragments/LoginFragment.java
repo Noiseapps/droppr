@@ -1,5 +1,8 @@
 package pl.siiletscode.droppr.fragments;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +27,7 @@ import pl.siiletscode.droppr.R;
 import pl.siiletscode.droppr.RESTConnection.DropprConnector;
 import pl.siiletscode.droppr.RESTConnection.LoggedInUser;
 import pl.siiletscode.droppr.SignInActivity;
+import pl.siiletscode.droppr.model.Event;
 import pl.siiletscode.droppr.util.SignInCallbacks;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -48,6 +52,7 @@ public class LoginFragment extends Fragment implements SignInActivity.ActionRece
     DropprConnector connector;
     @Bean
     LoggedInUser loggedInUser;
+    private ProgressDialog progressDialog;
 
     @AfterViews
     void init() {
@@ -72,8 +77,25 @@ public class LoginFragment extends Fragment implements SignInActivity.ActionRece
         getActivity().finish();
     }
 
+    private void showProgress() {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setIndeterminate(true);
+        progressDialog.setTitle(R.string.loggingIn);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+    }
+
+    private void hideProgress() {
+        if(progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+    }
+
     @Override
     public void onFabClicked() {
+        showProgress();
         validator.validate();
     }
 
@@ -82,7 +104,18 @@ public class LoginFragment extends Fragment implements SignInActivity.ActionRece
         connector.getEventList().
                 subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread()).
-                subscribe();
+                subscribe(this::loginSucceeded, this::loginFailed);
+    }
+
+    private void loginFailed(Throwable throwable) {
+        hideProgress();
+        Snackbar.make(email, R.string.failedToLogin, Snackbar.LENGTH_LONG).show();
+    }
+
+    private void loginSucceeded(List<Event> events) {
+        hideProgress();
+        getActivity().setResult(Activity.RESULT_OK);
+        getActivity().finish();
     }
 
     @Override

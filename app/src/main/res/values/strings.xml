@@ -35,4 +35,6 @@
     <string name="invalidMail">Wpisany adres nie jest poprawny</string>
     <string name="failedToRegister">Nie udało się utworzyć konta użytkownika</string>
     <string name="registering">Tworzenie konta…</string>
+    <string name="failedToLogin">Nie powiodło się logowanie</string>
+    <string name="loggingIn">Trwa logowanie…</string>
 </resources>
