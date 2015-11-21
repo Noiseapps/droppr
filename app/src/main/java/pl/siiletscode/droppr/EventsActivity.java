@@ -34,7 +34,6 @@ import pl.siiletscode.droppr.fragments.EventsMapFragment;
 import pl.siiletscode.droppr.fragments.EventsMapFragment_;
 import pl.siiletscode.droppr.model.Event;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_events)
