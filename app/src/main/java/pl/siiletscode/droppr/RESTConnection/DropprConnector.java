@@ -129,7 +129,7 @@ public class DropprConnector {
         if(apiService == null){
             return null;
         }
-        return apiService.addUserToEvent(eventId, userId);
+        return apiService.addUserToEvent(eventId, loggedUser.getUser());
     }
 
     private class Interceptor implements RequestInterceptor {
