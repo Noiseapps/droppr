@@ -69,6 +69,6 @@ public class EventListFragment extends Fragment {
     }
 
     private void showEvent(Event event) {
-        EventDetailsActivity_.intent(this).start();
+        EventDetailsActivity_.intent(this).event(event).start();
     }
 }

@@ -35,7 +35,7 @@ public class ParticipantListAdapter extends ArrayAdapter<User>{
     public View getView(int position, View convertView, ViewGroup parent){
         if (convertView == null){
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            convertView = inflater.inflate(resourceId, parent, false);
+            convertView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
         }
         User user = users.get(position);
         TextView textView = (TextView) convertView.findViewById(android.R.id.text1);

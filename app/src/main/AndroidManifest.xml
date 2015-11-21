@@ -41,6 +41,11 @@
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".EventDetailsActivity_"
+            android:label="@string/title_activity_event_details"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".SignInActivity_"
             android:label="@string/title_activity_sign_in"
             android:screenOrientation="sensorPortrait"

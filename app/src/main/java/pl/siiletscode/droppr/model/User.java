@@ -3,20 +3,22 @@ package pl.siiletscode.droppr.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Walen on 2015-11-20.
  */
 public class User implements Parcelable {
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    private int id;
+    @SerializedName("_id")
+    private String id;
     private String name;
     private String surname;
     private String email;
@@ -65,6 +67,9 @@ public class User implements Parcelable {
                 '}';
     }
 
+    public User() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -72,25 +77,22 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.surname);
         dest.writeString(this.email);
         dest.writeString(this.passwordHash);
     }
 
-    public User() {
-    }
-
     protected User(Parcel in) {
-        this.id = in.readInt();
+        this.id = in.readString();
         this.name = in.readString();
         this.surname = in.readString();
         this.email = in.readString();
         this.passwordHash = in.readString();
     }
 
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+    public static final Creator<User> CREATOR = new Creator<User>() {
         public User createFromParcel(Parcel source) {
             return new User(source);
         }

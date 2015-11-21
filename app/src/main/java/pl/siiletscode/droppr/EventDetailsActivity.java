@@ -67,13 +67,17 @@ public class EventDetailsActivity extends AppCompatActivity {
                 subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::initGuestList);
+        mapFragment.getMapAsync(this::onMapReady);
     }
 
     void initGuestList(EventParticipants users) {
         participants = users;
-        ParticipantListAdapter adapter = new ParticipantListAdapter(this, android.R.id.text1, (User[]) users.getParticipants().toArray());
+        User[] usersArray = new User[participants.getParticipants().size()];
+        usersArray = participants.getParticipants().toArray(usersArray);
+        ParticipantListAdapter adapter = new ParticipantListAdapter(this, android.R.id.text1, usersArray);
         guestList.setAdapter(adapter);
-        eventDateText.setText(DateFormat.getDateTimeInstance().format(event.getEventTime()));
+        eventName.setText(event.getName());
+        eventDateText.setText(DateFormat.getDateTimeInstance().format(event.getEventTime().toDate()));
         ownerName.setText(participants.getHost().getName() + " " + participants.getHost().getSurname());
         Location loc = new Location("");
         Location userLocation = new Location("");
@@ -82,11 +86,11 @@ public class EventDetailsActivity extends AppCompatActivity {
         LocationManager locationManager = (LocationManager) this.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         try {
             userLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        }catch(SecurityException ex){
+        }catch(SecurityException ex) {
 
         }
-        eventDistance.setText(Double.toString(loc.distanceTo(userLocation)));
-        mapFragment.getMapAsync(this::onMapReady);
+        eventDistance.setText(String.format("%.2f km", event.getDistance(userLocation) / 1000));
+
     }
 
     private void onMapReady(GoogleMap googleMap) {
@@ -96,12 +100,13 @@ public class EventDetailsActivity extends AppCompatActivity {
     }
 
     public void setEvent(Event event) {
-        map.clear();
         final MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.title(event.getName());
         markerOptions.position(new LatLng(event.getLocation().getLat(), event.getLocation().getLng()));
         map.addMarker(markerOptions);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(markerOptions.getPosition(), ZOOM));
     }
+
+
 
 }

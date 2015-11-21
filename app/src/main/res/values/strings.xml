@@ -4,6 +4,7 @@
     <string name="apiKeyTomek">AIzaSyDYQZiMBCS2Q3QoGICtydynuVm6loRc61Q</string>
     <string name="apiKeyWalen">AIzaSyAhfg2VvV2v5wSYSknbNEQIClQVR5Ykjo8</string>
     <string name="title_activity_events">EventsActivity</string>
+    <string name="title_activity_event_details">Szczegóły wydarzenia</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="eventList">Lista</string>
     <string name="eventMap">Mapa</string>
