@@ -100,7 +100,7 @@ public class EventsMapFragment extends Fragment implements LocationListener {
         for (Event event : eventList) {
             final MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.title(event.getName());
-            markerOptions.position(new LatLng(event.getLat(), event.getLon()));
+            markerOptions.position(new LatLng(event.getLocation().getLat(), event.getLocation().getLng()));
             map.addMarker(markerOptions);
         }
     }

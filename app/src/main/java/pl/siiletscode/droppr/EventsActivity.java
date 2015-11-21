@@ -213,7 +213,7 @@ public class EventsActivity extends AppCompatActivity {
 
     private void sortByTime(boolean ascending) {
         final Comparator<Event> comparator = (lhs, rhs) -> {
-            int result = (int) (lhs.getEventDateMilis() - rhs.getEventDateMilis());
+            int result = (int) (lhs.getEventTime().compareTo(rhs.getEventTime()));
             if(!ascending) result *= -1;
             return result;
         };
@@ -228,7 +228,7 @@ public class EventsActivity extends AppCompatActivity {
 
     private void sortByParticipantCount(boolean ascending) {
         final Comparator<Event> comparator = (lhs, rhs) -> {
-            int result = lhs.getParticipantCount() - rhs.getParticipantCount();
+            int result = lhs.getGuests().length - rhs.getGuests().length;
             if(!ascending) result *= -1;
             return result;
         };
