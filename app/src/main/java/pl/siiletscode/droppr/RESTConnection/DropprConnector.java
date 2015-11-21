@@ -17,6 +17,7 @@ import pl.siiletscode.droppr.model.EventParticipants;
 import pl.siiletscode.droppr.model.User;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.client.Response;
 import rx.Observable;
 
 /**
@@ -122,6 +123,13 @@ public class DropprConnector {
             return;
         }
         apiService.removeUserFromEvent(eventId, userId);
+    }
+
+    public Observable<Response> addUserToEvent( String eventId, String userId){
+        if(apiService == null){
+            return null;
+        }
+        return apiService.addUserToEvent(eventId, userId);
     }
 
     private class Interceptor implements RequestInterceptor {

@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FragmentById;
@@ -24,9 +25,12 @@ import org.androidannotations.annotations.ViewById;
 import java.text.DateFormat;
 
 import pl.siiletscode.droppr.RESTConnection.DropprConnector;
+import pl.siiletscode.droppr.RESTConnection.LoggedInUser;
 import pl.siiletscode.droppr.model.Event;
 import pl.siiletscode.droppr.model.EventParticipants;
 import pl.siiletscode.droppr.model.User;
+import retrofit.client.Response;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -37,6 +41,8 @@ import rx.schedulers.Schedulers;
 public class EventDetailsActivity extends AppCompatActivity {
     @Bean
     public DropprConnector connector;
+    @Bean
+    public LoggedInUser localUser;
     public static final float ZOOM = 16f;
     @ViewById(R.id.eventName)
     TextView eventName;
@@ -107,6 +113,13 @@ public class EventDetailsActivity extends AppCompatActivity {
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(markerOptions.getPosition(), ZOOM));
     }
 
+    @Click(R.id.joinButton)
+    public void joinEvent(){
+        connector.addUserToEvent(event.getId(), localUser.getUser().getId()).subscribe(this::onUserJoined);
+    }
 
+    private void onUserJoined(Response r){
+        init();
+    }
 
 }
