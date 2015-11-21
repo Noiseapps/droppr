@@ -118,11 +118,11 @@ public class DropprConnector {
         apiService.deleteEventById(eventId);
     }
 
-    public void removeUserFromEvent(String eventId, String userId){
+    public Observable<Response> removeUserFromEvent(String eventId, String userId){
         if(apiService == null){
-            return;
+            return null;
         }
-        apiService.removeUserFromEvent(eventId, userId);
+        return apiService.removeUserFromEvent(eventId, userId, loggedUser.getUser());
     }
 
     public Observable<Response> addUserToEvent( String eventId, String userId){

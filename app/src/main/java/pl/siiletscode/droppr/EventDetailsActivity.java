@@ -3,8 +3,10 @@ package pl.siiletscode.droppr;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -46,7 +48,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     public static final float ZOOM = 16f;
     @ViewById(R.id.eventName)
     TextView eventName;
-
+    private boolean userAlreadyIn;
     @ViewById
     Toolbar toolbar;
     @ViewById
@@ -59,6 +61,8 @@ public class EventDetailsActivity extends AppCompatActivity {
     ListView guestList;
     @FragmentById
     SupportMapFragment mapFragment;
+    @ViewById
+    FloatingActionButton joinButton;
 
     private EventParticipants participants;
 
@@ -96,6 +100,21 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         }
         eventDistance.setText(String.format("%.2f km", event.getDistance(userLocation) / 1000));
+        userAlreadyIn = false;
+        for (User u: participants.getParticipants()) {
+            if (u.getId().equals(localUser.getUser().getId())){
+                userAlreadyIn = true;
+            }
+        }
+        if (participants.getHost().getId().equals(localUser.getUser().getId())){
+            joinButton.setVisibility(View.GONE);
+        }else{
+        if (userAlreadyIn){
+            joinButton.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_remove_white_24dp));
+        }else{
+            joinButton.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_add_white_24px));
+        }
+        }
 
     }
 
@@ -115,7 +134,11 @@ public class EventDetailsActivity extends AppCompatActivity {
 
     @Click(R.id.joinButton)
     public void joinEvent(){
-        connector.addUserToEvent(event.getId(), localUser.getUser().getId()).subscribe(this::onUserJoined);
+        if(!userAlreadyIn) {
+            connector.addUserToEvent(event.getId(), localUser.getUser().getId()).subscribe(this::onUserJoined);
+        }else{
+            connector.removeUserFromEvent(event.getId(), localUser.getUser().getId()).subscribe(this::onUserJoined);
+        }
     }
 
     private void onUserJoined(Response r){

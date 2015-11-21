@@ -48,8 +48,8 @@ public interface DropprAPI {
     @DELETE("/api/events/{id}")
     void deleteEventById(@Path("id") String eventId);
 
-    @DELETE("/api/events/{evtId}/users/{userId}")
-    void removeUserFromEvent(@Path("evtId") String eventId, @Path("userId") String userId);
+    @PUT("/api/events/{evtId}/users/{userId}")
+    Observable<Response> removeUserFromEvent(@Path("evtId") String eventId, @Path("userId") String userId, @Body User user);
 
     @PUT("/api/events/{evtId}/users")
     Observable<Response> addUserToEvent(@Path("evtId") String eventId, @Body User user);
