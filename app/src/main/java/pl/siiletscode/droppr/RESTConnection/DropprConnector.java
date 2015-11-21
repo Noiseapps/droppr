@@ -49,7 +49,7 @@ public class DropprConnector {
         if (apiService == null){
             return null;
         }
-        return apiService.addUser(user.getEmail(), user.getPasswordHash());
+        return apiService.addUser(user);
     }
 
     public Observable<List<Event>> getEventList(){

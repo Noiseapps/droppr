@@ -14,6 +14,9 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
+import pl.siiletscode.droppr.EventDetailsActivity;
+import pl.siiletscode.droppr.EventDetailsActivity_;
+import pl.siiletscode.droppr.EventListRecyclerAdapter;
 import pl.siiletscode.droppr.R;
 import pl.siiletscode.droppr.model.Event;
 
@@ -45,5 +48,7 @@ public class EventListFragment extends Fragment {
 
     public void setEvents(List<Event> eventList) {
         // todo create adapter, display list
+        EventListRecyclerAdapter adapter = new EventListRecyclerAdapter(getContext(), eventList,
+                event -> EventDetailsActivity_.intent(EventListFragment.this).event(event).start());
     }
 }

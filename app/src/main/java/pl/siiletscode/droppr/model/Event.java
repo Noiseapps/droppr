@@ -1,13 +1,26 @@
 package pl.siiletscode.droppr.model;
 
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Walen on 2015-11-20.
  */
-public class Event {
+public class Event implements Parcelable {
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private String name;
     private float lat;
     private float lon;
@@ -115,4 +128,53 @@ public class Event {
     public void setMaxParticipants(int maxParticipants) {
         this.maxParticipants = maxParticipants;
     }
+
+    public Event() {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.name);
+        dest.writeFloat(this.lat);
+        dest.writeFloat(this.lon);
+        dest.writeLong(this.eventDateMilis);
+        dest.writeString(this.description);
+        dest.writeTypedList(guests);
+        dest.writeString(this.eventType);
+        dest.writeInt(this.participantCount);
+        dest.writeParcelable(this.host, 0);
+        dest.writeInt(this.minParticipants);
+        dest.writeInt(this.maxParticipants);
+    }
+
+    protected Event(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.lat = in.readFloat();
+        this.lon = in.readFloat();
+        this.eventDateMilis = in.readLong();
+        this.description = in.readString();
+        this.guests = in.createTypedArrayList(User.CREATOR);
+        this.eventType = in.readString();
+        this.participantCount = in.readInt();
+        this.host = in.readParcelable(User.class.getClassLoader());
+        this.minParticipants = in.readInt();
+        this.maxParticipants = in.readInt();
+    }
+
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        public Event createFromParcel(Parcel source) {
+            return new Event(source);
+        }
+
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 }
