@@ -13,6 +13,7 @@ import java.util.List;
 
 import pl.siiletscode.droppr.R;
 import pl.siiletscode.droppr.model.Event;
+import pl.siiletscode.droppr.model.EventParticipants;
 import pl.siiletscode.droppr.model.User;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -67,28 +68,28 @@ public class DropprConnector {
         return apiService.getEventTypes();
     }
 
-    public Observable<List<User>> getEventGuests(@NonNull int eventId){
+    public Observable<EventParticipants> getEventGuests(@NonNull String eventId){
         if (apiService == null){
             return null;
         }
         return apiService.getEventGuests(eventId);
     }
 
-    public Observable<User> getUserById(@NonNull int userId){
+    public Observable<User> getUserById(@NonNull String userId){
         if (apiService == null){
             return null;
         }
         return apiService.getUserById(userId);
     }
 
-    public void editUserById(@NonNull int userId, @NonNull User user){
+    public void editUserById(@NonNull String userId, @NonNull User user){
         if(apiService == null){
             return;
         }
         apiService.editUserById(userId, user);
     }
 
-    public Observable<Event> getEventById(int eventId){
+    public Observable<Event> getEventById(String eventId){
         if(apiService == null){
             return null;
         }
@@ -102,21 +103,21 @@ public class DropprConnector {
         apiService.createEvent(event);
     }
 
-    public void editEventById(int eventId, Event event){
+    public void editEventById(String eventId, Event event){
         if(apiService == null){
             return;
         }
         apiService.editEventById(eventId, event);
     }
 
-    public void deleteEventById(int eventId){
+    public void deleteEventById(String eventId){
         if(apiService == null){
             return;
         }
         apiService.deleteEventById(eventId);
     }
 
-    public void removeUserFromEvent(int eventId, int userId){
+    public void removeUserFromEvent(String eventId, String userId){
         if(apiService == null){
             return;
         }

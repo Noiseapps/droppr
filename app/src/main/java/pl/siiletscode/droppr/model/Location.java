@@ -23,6 +23,9 @@ public class Location implements Parcelable {
         this.lat = Double.toString(lat);
     }
 
+    public Location() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -34,15 +37,12 @@ public class Location implements Parcelable {
         dest.writeString(this.lng);
     }
 
-    public Location() {
-    }
-
     protected Location(Parcel in) {
         this.lat = in.readString();
         this.lng = in.readString();
     }
 
-    public static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
+    public static final Creator<Location> CREATOR = new Creator<Location>() {
         public Location createFromParcel(Parcel source) {
             return new Location(source);
         }

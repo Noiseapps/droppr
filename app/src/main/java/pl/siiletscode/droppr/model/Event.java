@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import org.joda.time.DateTime;
 
+import java.util.List;
+
 /**
  * Created by Walen on 2015-11-20.
  */

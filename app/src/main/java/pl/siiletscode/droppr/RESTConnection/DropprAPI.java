@@ -3,6 +3,7 @@ package pl.siiletscode.droppr.RESTConnection;
 import java.util.List;
 
 import pl.siiletscode.droppr.model.Event;
+import pl.siiletscode.droppr.model.EventParticipants;
 import pl.siiletscode.droppr.model.User;
 import retrofit.client.Response;
 import retrofit.http.Body;
@@ -27,27 +28,27 @@ public interface DropprAPI {
     Observable<List<String>> getEventTypes();
 
     @GET("/api/events/{id}/participants")
-    Observable<List<User>> getEventGuests(@Path("id") int eventId);
+    Observable<EventParticipants> getEventGuests(@Path("id") String eventId);
 
     @GET("/api/users/{id}")
-    Observable<User> getUserById(@Path("id") int userId);
+    Observable<User> getUserById(@Path("id") String userId);
 
     @PUT("/api/users/{id}")
-    void editUserById(@Path("id") int userId, @Body User user);
+    void editUserById(@Path("id") String userId, @Body User user);
 
     @GET("/api/events/{id}")
-    Observable<Event> getEventById(@Path("id") int eventId);
+    Observable<Event> getEventById(@Path("id") String eventId);
 
     @POST("/api/events")
     void createEvent(@Body Event event);
 
     @PUT("/api/events/{id}")
-    void editEventById(@Path("id") int eventId, @Body Event event);
+    void editEventById(@Path("id") String eventId, @Body Event event);
 
     @DELETE("/api/events/{id}")
-    void deleteEventById(@Path("id") int eventId);
+    void deleteEventById(@Path("id") String eventId);
 
     @DELETE("/api/events/{evtId}/users/{usrId}")
-    void removeUserFromEvent(@Path("evtId") int eventId, @Path("usrId") int userId);
+    void removeUserFromEvent(@Path("evtId") String eventId, @Path("usrId") String userId);
 
 }
