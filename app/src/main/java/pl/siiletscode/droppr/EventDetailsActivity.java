@@ -116,9 +116,7 @@ public class EventDetailsActivity extends AppCompatActivity {
             if(userLocation == null) {
                 userLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
-        }catch(SecurityException ex) {
-
-        }
+        }catch(SecurityException ex) {}
         eventDistance.setText(String.format("%.2f km", event.getDistance(userLocation) / 1000));
         userAlreadyIn = false;
         for (User u: participants.getParticipants()) {

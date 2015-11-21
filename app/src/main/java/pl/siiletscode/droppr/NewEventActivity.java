@@ -193,6 +193,7 @@ public class NewEventActivity extends AppCompatActivity implements DatePickerDia
 
     private void onEventCreated(Event event) {
         EventDetailsActivity_.intent(this).event(event).start();
+        finish();
     }
 
     @OptionsItem(android.R.id.home)
