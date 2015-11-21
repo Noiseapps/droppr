@@ -49,4 +49,8 @@
     <string name="retry">Ponów</string>
     <string name="failedDownloadingMsg">Nie udało się pobrać wydarzeń. Prosimy spróbować później.</string>
     <string name="failedDownloadingData">Błąd pobierania danych</string>
+    <string name="insufficientPermissions">Brak wymaganych uprawnień</string>
+    <string name="requiresPermissions">W celu zachowania funkcjonalności, wymagane jest przyznanie uprawnień do uzyskiwania lokalizacji.</string>
+    <string name="quit">Wyjdź</string>
+    <string name="selectLocation">Wybierz miejsce wydarzenia</string>
 </resources>

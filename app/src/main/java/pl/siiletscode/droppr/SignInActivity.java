@@ -1,6 +1,11 @@
 package pl.siiletscode.droppr;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -18,6 +23,7 @@ import pl.siiletscode.droppr.util.SignInCallbacks;
 @EActivity(R.layout.activity_sign_in)
 public class SignInActivity extends AppCompatActivity implements SignInCallbacks {
 
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 123;
     @ViewById
     Toolbar toolbar;
     @ViewById
@@ -28,6 +34,32 @@ public class SignInActivity extends AppCompatActivity implements SignInCallbacks
     void init() {
         setSupportActionBar(toolbar);
         showLogin();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_READ_CONTACTS) {
+            if (grantResults.length > 0 && (grantResults[0] != PackageManager.PERMISSION_GRANTED ||
+                    grantResults[1] != PackageManager.PERMISSION_GRANTED)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.insufficientPermissions);
+                builder.setMessage(getString(R.string.requiresPermissions));
+                builder.setPositiveButton(R.string.quit, (dialog, which) -> {
+                    finish();
+                });
+                builder.show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -52,12 +84,12 @@ public class SignInActivity extends AppCompatActivity implements SignInCallbacks
                 commit();
     }
 
-    public interface ActionReceiver {
-        void onFabClicked();
-    }
-
     @Click(R.id.fab)
     void onFabClick() {
         receiver.onFabClicked();
+    }
+
+    public interface ActionReceiver {
+        void onFabClicked();
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -23,6 +24,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FragmentById;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.joda.time.DateTime;
 
@@ -85,6 +87,13 @@ public class EventDetailsActivity extends AppCompatActivity {
         mapFragment.getMapAsync(this::onMapReady);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.eventDetails);
+        final ActionBar supportActionBar = getSupportActionBar();
+        supportActionBar.setDisplayHomeAsUpEnabled(true);
+        supportActionBar.setHomeButtonEnabled(true);
+    }
+    @OptionsItem(android.R.id.home)
+    void onHome() {
+        finish();
     }
 
     void initGuestList(EventParticipants users) {

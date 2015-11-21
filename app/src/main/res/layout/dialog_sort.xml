@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_margin="8dp"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
     <RadioGroup
         android:id="@+id/sortType"
@@ -10,35 +11,36 @@
         android:layout_height="wrap_content">
 
         <RadioButton
+            android:id="@+id/distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/distance"
-            android:id="@+id/distance" />
+            android:checked="true"
+            android:text="@string/distance" />
 
         <RadioButton
+            android:id="@+id/sportType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sportType"
-            android:id="@+id/sportType" />
+            android:text="@string/sportType" />
 
         <RadioButton
+            android:id="@+id/participantCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/participantCount"
-            android:id="@+id/participantCount" />
+            android:text="@string/participantCount" />
 
         <RadioButton
+            android:id="@+id/timeToStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/timeToStart"
-            android:id="@+id/timeToStart" />
+            android:text="@string/timeToStart" />
     </RadioGroup>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:background="@color/colorAccent" />
 
     <RadioGroup
@@ -47,16 +49,17 @@
         android:layout_height="wrap_content">
 
         <RadioButton
+            android:id="@+id/ascending"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ascending"
-            android:id="@+id/ascending" />
+            android:checked="true"
+            android:text="@string/ascending" />
 
         <RadioButton
+            android:id="@+id/descending"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/descending"
-            android:id="@+id/descending" />
+            android:text="@string/descending" />
     </RadioGroup>
 
 </LinearLayout>

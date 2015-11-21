@@ -166,6 +166,10 @@ public class NewEventActivity extends AppCompatActivity implements DatePickerDia
 
     @Click(R.id.fab)
     void onFabClick() {
+        if(latLng == null) {
+            Snackbar.make(toolbar, R.string.selectLocation, Snackbar.LENGTH_LONG).show();
+            return;
+        }
         if (validDate) {
             final Event event = new Event();
             event.setName(newEventName.getText().toString().trim());
@@ -215,7 +219,7 @@ public class NewEventActivity extends AppCompatActivity implements DatePickerDia
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         dateTime.setHourOfDay(hourOfDay);
-        dateTime.setMinuteOfDay(minute);
+        dateTime.setMinuteOfHour(minute);
         validDate = true;
         dateData.setText(dateTime.toString(Consts.FORMATTER));
     }
