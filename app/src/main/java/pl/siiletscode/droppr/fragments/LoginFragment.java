@@ -57,12 +57,19 @@ public class LoginFragment extends Fragment implements SignInActivity.ActionRece
         final ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if(supportActionBar != null) {
             supportActionBar.setTitle(R.string.login);
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setHomeButtonEnabled(true);
         }
     }
 
-    @OptionsItem(R.id.actionLogin)
+    @OptionsItem(R.id.actionRegister)
     void showLogin() {
         callbacks.showRegister();
+    }
+
+    @OptionsItem(android.R.id.home)
+    void onHome() {
+        getActivity().finish();
     }
 
     @Override

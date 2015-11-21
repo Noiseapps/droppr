@@ -50,4 +50,15 @@ public class User {
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
+                '}';
+    }
 }

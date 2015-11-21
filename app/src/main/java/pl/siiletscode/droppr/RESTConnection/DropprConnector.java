@@ -2,6 +2,7 @@ package pl.siiletscode.droppr.RESTConnection;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Base64;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
@@ -49,7 +50,7 @@ public class DropprConnector {
         if (apiService == null){
             return null;
         }
-        return apiService.addUser(user.getEmail(), user.getPasswordHash());
+        return apiService.addUser(user);
     }
 
     public Observable<List<Event>> getEventList(){
@@ -136,6 +137,7 @@ public class DropprConnector {
     }
 
     private String getAuth() {
-        return loggedUser.getUser().getEmail() + ":" + loggedUser.getUser().getPasswordHash();
+        final String usernameString = loggedUser.getUser().getEmail() + ":" + loggedUser.getUser().getPasswordHash();
+        return Base64.encodeToString(usernameString.getBytes(), Base64.DEFAULT).replaceAll("\n", "");
     }
 }

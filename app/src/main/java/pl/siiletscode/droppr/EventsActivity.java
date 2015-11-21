@@ -110,7 +110,7 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     private void onDownloadFailed(Throwable throwable) {
-        Logger.e("DOWNLOAD failed");
+        Logger.e(throwable, throwable.getMessage());
         hideProgress();
     }
 

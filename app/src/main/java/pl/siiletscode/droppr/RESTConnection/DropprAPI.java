@@ -18,7 +18,7 @@ import rx.Observable;
  */
 public interface DropprAPI {
     @POST("/api/users")
-    Observable<User> addUser(@Body String email, @Body String passwordHash);
+    Observable<User> addUser(@Body User user);
 
     @GET("/api/events")
     Observable<List<Event>> getEventList();

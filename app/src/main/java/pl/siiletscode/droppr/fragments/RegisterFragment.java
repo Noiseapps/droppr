@@ -1,5 +1,7 @@
 package pl.siiletscode.droppr.fragments;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -69,6 +71,7 @@ public class RegisterFragment extends Fragment implements SignInActivity.ActionR
     DropprConnector connector;
     @Bean
     LoggedInUser loggedInUser;
+    private ProgressDialog progressDialog;
 
     @AfterViews
     void init() {
@@ -78,6 +81,8 @@ public class RegisterFragment extends Fragment implements SignInActivity.ActionR
         final ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if(supportActionBar != null) {
             supportActionBar.setTitle(R.string.register);
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setHomeButtonEnabled(true);
         }
         password.setTypeface(Typeface.DEFAULT);
         retypePassword.setTypeface(Typeface.DEFAULT);
@@ -88,9 +93,24 @@ public class RegisterFragment extends Fragment implements SignInActivity.ActionR
         callbacks.showLogin();
     }
 
+    @OptionsItem(android.R.id.home)
+    void onHome() {
+        getActivity().finish();
+    }
+
     @Override
     public void onFabClicked() {
+        showProgress();
         validator.validate();
+    }
+
+    private void showProgress() {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setIndeterminate(true);
+        progressDialog.setTitle(R.string.registering);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
     }
 
     @Override
@@ -110,11 +130,23 @@ public class RegisterFragment extends Fragment implements SignInActivity.ActionR
     }
 
     private void onSuccess(User user) {
+        hideProgress();
+        Logger.d(user.toString());
         Logger.d("Account created");
         loggedInUser.setUser(user);
+        getActivity().setResult(Activity.RESULT_OK);
+        getActivity().finish();
+    }
+
+    private void hideProgress() {
+        if(progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 
     private void onError(Throwable throwable) {
+        hideProgress();
         Snackbar.make(name, R.string.failedToRegister, Snackbar.LENGTH_LONG).show();
     }
 

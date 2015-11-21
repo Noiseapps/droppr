@@ -34,4 +34,5 @@
     <string name="passwordDontMatch">Wpisane hasła się nie zgadzają</string>
     <string name="invalidMail">Wpisany adres nie jest poprawny</string>
     <string name="failedToRegister">Nie udało się utworzyć konta użytkownika</string>
+    <string name="registering">Tworzenie konta…</string>
 </resources>
