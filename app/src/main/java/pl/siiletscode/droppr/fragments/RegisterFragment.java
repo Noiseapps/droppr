@@ -167,6 +167,7 @@ public class RegisterFragment extends Fragment implements SignInActivity.ActionR
 
     @Override
     public void onValidationFailed(List<ValidationError> errors) {
+        hideProgress();
         for (ValidationError error : errors) {
             ((EditText) error.getView()).setError(error.getCollatedErrorMessage(getActivity()));
         }

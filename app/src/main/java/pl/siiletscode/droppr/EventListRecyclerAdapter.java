@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeField;
 import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 import pl.siiletscode.droppr.model.Event;
+import pl.siiletscode.droppr.util.Consts;
 
 /**
  * Created by Walen on 2015-11-21.
@@ -57,12 +59,12 @@ public class EventListRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewH
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         final Event event = eventList.get(position);
-        holder.date.setText(event.getEventTime().toString(DateTimeFormat.forPattern("dd-MM-yyyy HH:mm")));
+        holder.date.setText(event.getEventTime().toString(Consts.FORMATTER));
         if(lastKnownLocation != null) {
             holder.distance.setText(String.format("%.2f km", event.getDistance(lastKnownLocation)/1000));
         }
-        final String title = (event.getName() + " (" + event.getEventType() + ")");
-        holder.title.setText(title);
+        holder.title.setText(event.getName());
+        holder.type.setText(event.getEventType());
         holder.itemView.setOnClickListener(v -> callbacks.onItemSelected(event));
     }
 

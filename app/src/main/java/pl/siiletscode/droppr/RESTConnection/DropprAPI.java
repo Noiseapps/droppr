@@ -24,7 +24,7 @@ public interface DropprAPI {
     @GET("/api/events")
     Observable<List<Event>> getEventList();
 
-    @GET("api/events/types")
+    @GET("/api/events/types")
     Observable<List<String>> getEventTypes();
 
     @GET("/api/events/{id}/participants")
@@ -40,7 +40,7 @@ public interface DropprAPI {
     Observable<Event> getEventById(@Path("id") String eventId);
 
     @POST("/api/events")
-    void createEvent(@Body Event event);
+    Observable<Event> createEvent(@Body Event event);
 
     @PUT("/api/events/{id}")
     void editEventById(@Path("id") String eventId, @Body Event event);

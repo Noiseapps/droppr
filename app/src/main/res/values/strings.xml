@@ -39,4 +39,9 @@
     <string name="failedToLogin">Nie powiodło się logowanie</string>
     <string name="loggingIn">Trwa logowanie…</string>
     <string name="noItems">Brak wydarzeń w pobliżu</string>
+    <string name="eventName">Nazwa wydarzenia</string>
+    <string name="date">Data wydarzenia</string>
+    <string name="failedToAddEvent">Nie powiodło się dodawanie wydarzenia</string>
+    <string name="selectValidDate"><![CDATA[Wybierz poprawną datę]]></string>
+    <string name="newEvent">Nowe wydarzenie</string>
 </resources>

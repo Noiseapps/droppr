@@ -97,11 +97,11 @@ public class DropprConnector {
         return apiService.getEventById(eventId);
     }
 
-    public void createEvent(@NonNull Event event){
+    public Observable<Event> createEvent(@NonNull Event event){
         if(apiService == null){
-            return;
+            return null;
         }
-        apiService.createEvent(event);
+        return apiService.createEvent(event);
     }
 
     public void editEventById(String eventId, Event event){
