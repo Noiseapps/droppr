@@ -7,5 +7,5 @@
         android:orderInCategory="100"
         android:icon="@drawable/ic_add_white_24px"
         android:title="@string/register"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>

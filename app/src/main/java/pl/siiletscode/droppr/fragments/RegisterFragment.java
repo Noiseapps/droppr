@@ -1,5 +1,6 @@
 package pl.siiletscode.droppr.fragments;
 
+import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -78,6 +79,8 @@ public class RegisterFragment extends Fragment implements SignInActivity.ActionR
         if(supportActionBar != null) {
             supportActionBar.setTitle(R.string.register);
         }
+        password.setTypeface(Typeface.DEFAULT);
+        retypePassword.setTypeface(Typeface.DEFAULT);
     }
 
     @OptionsItem(R.id.actionLogin)
@@ -96,9 +99,14 @@ public class RegisterFragment extends Fragment implements SignInActivity.ActionR
         user.setName(name.getText().toString().trim());
         user.setSurname(surname.getText().toString().trim());
         user.setEmail(email.getText().toString().trim());
-        user.setPasswordHash(md5(password.getText().toString().trim()));
-        connector.addUser(user).subscribeOn(Schedulers.io()).
-        observeOn(AndroidSchedulers.mainThread()).subscribe(this::onSuccess, this::onError);
+        final String passwordHash = md5(password.getText().toString().trim());
+        if(!passwordHash.isEmpty()) {
+            user.setPasswordHash(passwordHash);
+            connector.addUser(user).subscribeOn(Schedulers.io()).
+                    observeOn(AndroidSchedulers.mainThread()).subscribe(this::onSuccess, this::onError);
+        } else {
+            onError(new Throwable());
+        }
     }
 
     private void onSuccess(User user) {
@@ -112,17 +120,14 @@ public class RegisterFragment extends Fragment implements SignInActivity.ActionR
 
     public String md5(String s) {
         try {
-            // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            final MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
             digest.update(s.getBytes());
             byte messageDigest[] = digest.digest();
 
-            // Create Hex String
             final StringBuilder hexString = new StringBuilder();
             for (byte aMessageDigest : messageDigest)
                 hexString.append(Integer.toHexString(0xFF & aMessageDigest));
             return hexString.toString();
-
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

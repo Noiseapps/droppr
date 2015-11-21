@@ -31,10 +31,10 @@ public class SignInActivity extends AppCompatActivity implements SignInCallbacks
     }
 
     @Override
-    public void showReservation() {
+    public void showRegister() {
         final RegisterFragment build = RegisterFragment_.builder().build();
-        receiver = (ActionReceiver) build;
-        fab.setBackgroundResource(R.drawable.ic_add_white_24px);
+        receiver = build;
+        fab.setImageResource(R.drawable.ic_add_white_24px);
         getSupportFragmentManager().
                 beginTransaction().
                 replace(R.id.container, build).
@@ -44,8 +44,8 @@ public class SignInActivity extends AppCompatActivity implements SignInCallbacks
     @Override
     public void showLogin() {
         final LoginFragment build = LoginFragment_.builder().build();
-        receiver = (ActionReceiver) build;
-        fab.setBackgroundResource(R.drawable.ic_lock_open);
+        receiver = build;
+        fab.setImageResource(R.drawable.ic_lock_open);
         getSupportFragmentManager().
                 beginTransaction().
                 replace(R.id.container, build).
