@@ -39,6 +39,7 @@ public class EventsMapFragment extends Fragment implements LocationListener {
     @SystemService
     LocationManager locationManager;
     private GoogleMap map;
+    private List<Event> eventList;
 
     @AfterViews
     void init() {
@@ -66,6 +67,7 @@ public class EventsMapFragment extends Fragment implements LocationListener {
             final CameraUpdate update = CameraUpdateFactory.newLatLng(target);
             map.moveCamera(update);
         }
+        showMarkers();
     }
 
     @OptionsItem(R.id.actionFilter)
@@ -96,6 +98,11 @@ public class EventsMapFragment extends Fragment implements LocationListener {
     }
 
     public void setEvents(List<Event> eventList) {
+        this.eventList = eventList;
+        showMarkers();
+    }
+
+    private void showMarkers() {
         map.clear();
         for (Event event : eventList) {
             final MarkerOptions markerOptions = new MarkerOptions();

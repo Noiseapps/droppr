@@ -176,16 +176,18 @@ public class EventsActivity extends AppCompatActivity {
         builder.setPositiveButton(R.string.sort, null);
         builder.setNegativeButton(R.string.cancel, null);
         final AlertDialog alertDialog = builder.create();
-        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
-            final RadioGroup typeGroup = (RadioGroup) alertDialog.findViewById(R.id.sortType);
-            selectedSort = typeGroup.getCheckedRadioButtonId();
-            final RadioGroup orderGroup = (RadioGroup) alertDialog.findViewById(R.id.sortOrder);
-            selectedOrder = orderGroup.getCheckedRadioButtonId();
-            handleSortIssues();
-            alertDialog.dismiss();
-        });
-        alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> {
-            alertDialog.dismiss();
+        alertDialog.setOnShowListener(dialog -> {
+            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
+                final RadioGroup typeGroup = (RadioGroup) alertDialog.findViewById(R.id.sortType);
+                selectedSort = typeGroup.getCheckedRadioButtonId();
+                final RadioGroup orderGroup = (RadioGroup) alertDialog.findViewById(R.id.sortOrder);
+                selectedOrder = orderGroup.getCheckedRadioButtonId();
+                handleSortIssues();
+                alertDialog.dismiss();
+            });
+            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(v -> {
+                alertDialog.dismiss();
+            });
         });
         builder.show();
     }
