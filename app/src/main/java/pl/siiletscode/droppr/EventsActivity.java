@@ -169,6 +169,11 @@ public class EventsActivity extends AppCompatActivity {
         Logger.d("filter");
     }
 
+    @OptionsItem(R.id.actionRefresh)
+    void onRefresh() {
+        downloadEvents();
+    }
+
     private void doFilter() {
 
     }

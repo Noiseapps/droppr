@@ -44,4 +44,6 @@
     <string name="failedToAddEvent">Nie powiodło się dodawanie wydarzenia</string>
     <string name="selectValidDate"><![CDATA[Wybierz poprawną datę]]></string>
     <string name="newEvent">Nowe wydarzenie</string>
+    <string name="eventDetails">Szczegóły wydarzenia</string>
+    <string name="refresh">Odśwież</string>
 </resources>

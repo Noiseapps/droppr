@@ -21,6 +21,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.ViewById;
+import org.joda.time.DateTime;
 
 import java.text.DateFormat;
 
@@ -29,6 +30,7 @@ import pl.siiletscode.droppr.RESTConnection.LoggedInUser;
 import pl.siiletscode.droppr.model.Event;
 import pl.siiletscode.droppr.model.EventParticipants;
 import pl.siiletscode.droppr.model.User;
+import pl.siiletscode.droppr.util.Consts;
 import retrofit.client.Response;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -74,6 +76,8 @@ public class EventDetailsActivity extends AppCompatActivity {
                 observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::initGuestList);
         mapFragment.getMapAsync(this::onMapReady);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.eventDetails);
     }
 
     void initGuestList(EventParticipants users) {
@@ -83,12 +87,12 @@ public class EventDetailsActivity extends AppCompatActivity {
         ParticipantListAdapter adapter = new ParticipantListAdapter(this, android.R.id.text1, usersArray);
         guestList.setAdapter(adapter);
         eventName.setText(event.getName());
-        eventDateText.setText(DateFormat.getDateTimeInstance().format(event.getEventTime().toDate()));
+        eventDateText.setText(event.getEventTime().toString(Consts.FORMATTER));
         ownerName.setText(participants.getHost().getName() + " " + participants.getHost().getSurname());
         Location loc = new Location("");
         Location userLocation = new Location("");
-        loc.setLongitude(event.getLocation().getLng());
-        loc.setLatitude(event.getLocation().getLat());
+        loc.setLongitude(event.getLng());
+        loc.setLatitude(event.getLat());
         LocationManager locationManager = (LocationManager) this.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         try {
             userLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -108,7 +112,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     public void setEvent(Event event) {
         final MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.title(event.getName());
-        markerOptions.position(new LatLng(event.getLocation().getLat(), event.getLocation().getLng()));
+        markerOptions.position(new LatLng(event.getLat(), event.getLng()));
         map.addMarker(markerOptions);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(markerOptions.getPosition(), ZOOM));
     }

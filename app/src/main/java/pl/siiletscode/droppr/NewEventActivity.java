@@ -29,6 +29,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentById;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
@@ -57,13 +58,13 @@ public class NewEventActivity extends AppCompatActivity implements DatePickerDia
     Spinner newEventType;
     @FragmentById
     SupportMapFragment mapFragment;
-    private MutableDateTime dateTime;
-    private boolean validDate;
-    private LatLng latLng;
     @Bean
     DropprConnector connector;
     @Bean
     LoggedInUser loggedInUser;
+    private MutableDateTime dateTime;
+    private boolean validDate;
+    private LatLng latLng;
     private String eventType;
     private GoogleMap map;
 
@@ -112,7 +113,7 @@ public class NewEventActivity extends AppCompatActivity implements DatePickerDia
         setMapUiSettings(map);
         final android.location.Location myLocation = map.getMyLocation();
         map.moveCamera(CameraUpdateFactory.zoomTo(ZOOM));
-        if(myLocation != null) {
+        if (myLocation != null) {
             final LatLng target = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
             final CameraUpdate update = CameraUpdateFactory.newLatLng(target);
             map.moveCamera(update);
@@ -154,13 +155,15 @@ public class NewEventActivity extends AppCompatActivity implements DatePickerDia
 
     @Click(R.id.fab)
     void onFabClick() {
-        if(validDate) {
+        if (validDate) {
             final Event event = new Event();
             event.setName(newEventName.getText().toString().trim());
             event.setEventTime(dateTime.toString());
             event.setEventType(eventType);
             event.setHost(loggedInUser.getUser().getId());
-            event.setLocation(new Location(latLng.latitude, latLng.longitude));
+            event.setLat(latLng.latitude);
+            event.setLng(latLng.longitude);
+//            event.setLocation(new Location(latLng.latitude, latLng.longitude));
             connector.createEvent(event).
                     subscribeOn(Schedulers.io()).
                     observeOn(AndroidSchedulers.mainThread()).
@@ -178,8 +181,14 @@ public class NewEventActivity extends AppCompatActivity implements DatePickerDia
         EventDetailsActivity_.intent(this).event(event).start();
     }
 
-    @Click(R.id.dateData)
-    void onAddDateClick(){
+
+    @OptionsItem(android.R.id.home)
+    void onHome() {
+        finish();
+    }
+
+    @Click({R.id.dateData, R.id.dateTitle})
+    void onAddDateClick() {
         validDate = false;
         final DateTime now = DateTime.now();
         final DatePickerDialog datePickerDialog = new DatePickerDialog(this, this, now.getYear(), now.getMonthOfYear() - 1, now.getDayOfMonth());
@@ -189,7 +198,7 @@ public class NewEventActivity extends AppCompatActivity implements DatePickerDia
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        dateTime = new MutableDateTime(year, monthOfYear+1, dayOfMonth, 0, 0, 0, 0);
+        dateTime = new MutableDateTime(year, monthOfYear + 1, dayOfMonth, 0, 0, 0, 0);
         final DateTime now = DateTime.now();
         new TimePickerDialog(this, this, now.getHourOfDay(), now.getMinuteOfHour(), true).show();
     }
