@@ -1,22 +1,28 @@
 package pl.siiletscode.droppr;
 
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import pl.siiletscode.droppr.fragments.LoginFragment;
+import pl.siiletscode.droppr.fragments.LoginFragment_;
+import pl.siiletscode.droppr.fragments.RegisterFragment;
+import pl.siiletscode.droppr.fragments.RegisterFragment_;
+import pl.siiletscode.droppr.util.SignInCallbacks;
+
 @EActivity(R.layout.activity_sign_in)
-public class SignInActivity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity implements SignInCallbacks {
 
     @ViewById
     Toolbar toolbar;
+    @ViewById
+    FloatingActionButton fab;
+    private ActionReceiver receiver;
 
     @AfterViews
     void init() {
@@ -24,17 +30,34 @@ public class SignInActivity extends AppCompatActivity {
         showLogin();
     }
 
-    // todo method to switch to registration
-    void showReservation() {
-
+    @Override
+    public void showRegister() {
+        final RegisterFragment build = RegisterFragment_.builder().build();
+        receiver = build;
+        fab.setImageResource(R.drawable.ic_add_white_24px);
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, build).
+                commit();
     }
 
-    void showLogin() {
+    @Override
+    public void showLogin() {
+        final LoginFragment build = LoginFragment_.builder().build();
+        receiver = build;
+        fab.setImageResource(R.drawable.ic_lock_open);
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.container, build).
+                commit();
+    }
 
+    public interface ActionReceiver {
+        void onFabClicked();
     }
 
     @Click(R.id.fab)
     void onFabClick() {
-        // todo call api to login / register user
+        receiver.onFabClicked();
     }
 }

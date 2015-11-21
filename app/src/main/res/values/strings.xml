@@ -14,4 +14,24 @@
     <string name="logout">Wyloguj</string>
     <string name="settings">Ustawienia</string>
     <string name="selectSort">Sortuj</string>
+    <string name="distance">Odległość</string>
+    <string name="sportType">Typ aktywności</string>
+    <string name="participantCount">Ilość uczestników</string>
+    <string name="timeToStart">Czas do rozpoczęcia</string>
+    <string name="ascending">Rosnąco</string>
+    <string name="descending">Malejąco</string>
+    <string name="cancel">Anuluj</string>
+    <string name="name">Imię</string>
+    <string name="Nazwisko">Nazwisko</string>
+    <string name="email">E-mail</string>
+    <string name="password">Hasło</string>
+    <string name="repeatPass">Powtórz hasło</string>
+    <string name="login">Zaloguj się</string>
+    <string name="register">Załóż konto</string>
+    <string name="downloading">Trwa pobieranie danych…</string>
+    <string name="notEmpty">To pole nie może być puste</string>
+    <string name="invalidPass">Wpisane hasło jest niepoprawne</string>
+    <string name="passwordDontMatch">Wpisane hasła się nie zgadzają</string>
+    <string name="invalidMail">Wpisany adres nie jest poprawny</string>
+    <string name="failedToRegister">Nie udało się utworzyć konta użytkownika</string>
 </resources>

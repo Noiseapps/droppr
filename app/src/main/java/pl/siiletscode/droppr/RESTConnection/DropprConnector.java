@@ -45,11 +45,11 @@ public class DropprConnector {
         apiService = adapter.create(DropprAPI.class);
     }
 
-    public void addUser(@NonNull User user){
+    public Observable<User> addUser(@NonNull User user){
         if (apiService == null){
-            return;
+            return null;
         }
-        apiService.addUser(user.getEmail(), user.getPasswordHash());
+        return apiService.addUser(user.getEmail(), user.getPasswordHash());
     }
 
     public Observable<List<Event>> getEventList(){

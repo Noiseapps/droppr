@@ -2,7 +2,6 @@ package pl.siiletscode.droppr.model;
 
 import android.location.Location;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,7 +9,25 @@ import java.util.List;
  */
 public class Event {
     private String name;
-    private Location location;
+    private float lat;
+    private float lon;
+
+    public float getLat() {
+        return lat;
+    }
+
+    public void setLat(float lat) {
+        this.lat = lat;
+    }
+
+    public float getLon() {
+        return lon;
+    }
+
+    public void setLon(float lon) {
+        this.lon = lon;
+    }
+
     private long eventDateMilis;
     private String description;
     private List<User> guests;
@@ -38,7 +55,9 @@ public class Event {
     private int maxParticipants;
 
     public double getDistance(Location loc) {
-        return location.distanceTo(loc);
+        final float[] results = new float[1];
+        Location.distanceBetween(lat, lon, loc.getLatitude(), loc.getLongitude(), results);
+        return results[0];
     }
 
     public String getName() {
@@ -47,14 +66,6 @@ public class Event {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
     }
 
     public long getEventDateMilis() {
