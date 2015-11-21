@@ -1,11 +1,14 @@
 package pl.siiletscode.droppr.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.joda.time.DateTime;
 
 /**
  * Created by Walen on 2015-11-20.
  */
-public class Event {
+public class Event implements Parcelable {
     private String id;
     private String name;
     private String eventType;
@@ -85,4 +88,45 @@ public class Event {
         location.setLongitude(this.location.getLng());
         return location.distanceTo(loc);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.eventType);
+        dest.writeString(this.createdAt);
+        dest.writeString(this.eventTime);
+        dest.writeParcelable(this.location, 0);
+        dest.writeString(this.host);
+        dest.writeStringArray(this.guests);
+    }
+
+    public Event() {
+    }
+
+    protected Event(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.eventType = in.readString();
+        this.createdAt = in.readString();
+        this.eventTime = in.readString();
+        this.location = in.readParcelable(Location.class.getClassLoader());
+        this.host = in.readString();
+        this.guests = in.createStringArray();
+    }
+
+    public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {
+        public Event createFromParcel(Parcel source) {
+            return new Event(source);
+        }
+
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 }

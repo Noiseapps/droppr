@@ -8,4 +8,6 @@
     <color name="textSecondary">#727272</color>
     <color name="divider">#b6b6b6</color>
     <color name="colorAccent">#536DFE</color>
+    <color name="white">#ffffff</color>
+    <color name="listItemBackgroundHighlight">#cccccc</color>
 </resources>

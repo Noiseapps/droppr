@@ -2,6 +2,8 @@ package pl.siiletscode.droppr;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +24,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.Collections;
@@ -65,6 +68,8 @@ public class EventsActivity extends AppCompatActivity {
     public LoggedInUser userStorage;
     private List<Event> eventList;
     private ProgressDialog progressDialog;
+    @SystemService
+    LocationManager locationManager;
 
     @AfterViews
     void init() {
@@ -189,7 +194,7 @@ public class EventsActivity extends AppCompatActivity {
                 alertDialog.dismiss();
             });
         });
-        builder.show();
+        alertDialog.show();
     }
 
     private void handleSortIssues() {
@@ -249,12 +254,19 @@ public class EventsActivity extends AppCompatActivity {
     }
 
     private void sortByDistance(boolean ascending) {
-//        Comparator comparator = new Comparator() {
-//            @Override
-//            public int compare(Object lhs, Object rhs) {
-//                return 0;
-//            }
-//        }
+        Location lastKnownLocation = new Location("");
+        try {
+            lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        } catch (SecurityException e){}
+
+        final Location finalLastKnownLocation = lastKnownLocation;
+        final Comparator<Event> comparator = (lhs, rhs) -> {
+            int result = (int) (lhs.getDistance(finalLastKnownLocation) - rhs.getDistance(finalLastKnownLocation));
+            if(!ascending) result *= -1;
+            return result;
+        };
+        Collections.sort(eventList, comparator);
+        fillAdapter();
     }
     @OptionsItem(R.id.actionSettings)
     void onShowSettings() {

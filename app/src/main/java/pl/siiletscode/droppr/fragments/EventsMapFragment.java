@@ -11,7 +11,9 @@ import android.support.v4.app.Fragment;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -60,6 +62,7 @@ public class EventsMapFragment extends Fragment implements LocationListener {
     private void onMapReady(GoogleMap map) {
         this.map = map;
         map.setMyLocationEnabled(true);
+        setMapUiSettings(map);
         final Location myLocation = map.getMyLocation();
         map.moveCamera(CameraUpdateFactory.zoomTo(ZOOM));
         if(myLocation != null) {
@@ -68,6 +71,16 @@ public class EventsMapFragment extends Fragment implements LocationListener {
             map.moveCamera(update);
         }
         showMarkers();
+    }
+
+    private void setMapUiSettings(GoogleMap map) {
+        final UiSettings uiSettings = map.getUiSettings();
+        uiSettings.setCompassEnabled(true);
+        uiSettings.setZoomControlsEnabled(true);
+        uiSettings.setTiltGesturesEnabled(false);
+        uiSettings.setRotateGesturesEnabled(true);
+        uiSettings.setScrollGesturesEnabled(true);
+        uiSettings.setZoomGesturesEnabled(true);
     }
 
     @OptionsItem(R.id.actionFilter)
