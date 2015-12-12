@@ -1,0 +1,122 @@
+{
+  "project_info": {
+    "project_id": "sports-connect",
+    "project_number": "24532706524",
+    "name": "Sports Connect"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24532706524:android:91a4b72b8b051d8e",
+        "client_id": "android:com.mwal.googlelogintest",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.mwal.googlelogintest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24532706524:android:bd923a1325fda24b",
+        "client_id": "android:com.mwal.googletestlogin",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.mwal.googletestlogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24532706524-7kt36sjrn731l6ejgitef5lt8bk87mg4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mwal.googletestlogin",
+            "certificate_hash": "6BE7C941278B69AAB0D3BAAD710449A2DD5FE9A2"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24532706524:android:e8f6b4b4d338e45d",
+        "client_id": "android:pl.siiletscode.droppr",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "pl.siiletscode.droppr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24532706524-23n6g9v2hbg331os5rgrt878r44i6kp8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.siiletscode.droppr",
+            "certificate_hash": "6BE7C941278B69AAB0D3BAAD710449A2DD5FE9A2"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

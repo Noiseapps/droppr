@@ -11,13 +11,12 @@ import com.orhanobut.logger.Logger;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
 import pl.siiletscode.droppr.EventDetailsActivity_;
-import pl.siiletscode.droppr.EventListRecyclerAdapter;
+import pl.siiletscode.droppr.adapters.EventListRecyclerAdapter;
 import pl.siiletscode.droppr.R;
 import pl.siiletscode.droppr.model.Event;
 

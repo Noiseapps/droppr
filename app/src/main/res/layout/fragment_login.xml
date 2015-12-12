@@ -39,5 +39,11 @@
                 android:inputType="textPassword" />
 
         </android.support.design.widget.TextInputLayout>
+
+        <com.google.android.gms.common.SignInButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/google_sign_in_button"
+            />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

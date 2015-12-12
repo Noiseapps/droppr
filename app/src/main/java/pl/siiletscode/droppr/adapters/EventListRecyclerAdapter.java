@@ -1,4 +1,4 @@
-package pl.siiletscode.droppr;
+package pl.siiletscode.droppr.adapters;
 
 import android.content.Context;
 import android.location.Location;
@@ -9,17 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeField;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import pl.siiletscode.droppr.R;
 import pl.siiletscode.droppr.model.Event;
 import pl.siiletscode.droppr.util.Consts;
 
@@ -72,6 +64,7 @@ public class EventListRecyclerAdapter extends RecyclerView.Adapter<RecyclerViewH
     public int getItemCount() {
         return eventList.size();
     }
+
 
 
 }

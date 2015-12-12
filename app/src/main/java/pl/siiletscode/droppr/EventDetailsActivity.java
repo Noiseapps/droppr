@@ -26,18 +26,15 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import org.joda.time.DateTime;
-
-import java.text.DateFormat;
 
 import pl.siiletscode.droppr.RESTConnection.DropprConnector;
 import pl.siiletscode.droppr.RESTConnection.LoggedInUser;
+import pl.siiletscode.droppr.adapters.ParticipantListAdapter;
 import pl.siiletscode.droppr.model.Event;
 import pl.siiletscode.droppr.model.EventParticipants;
 import pl.siiletscode.droppr.model.User;
 import pl.siiletscode.droppr.util.Consts;
 import retrofit.client.Response;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 

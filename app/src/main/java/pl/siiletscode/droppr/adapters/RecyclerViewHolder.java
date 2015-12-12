@@ -1,8 +1,10 @@
-package pl.siiletscode.droppr;
+package pl.siiletscode.droppr.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
+import pl.siiletscode.droppr.R;
 
 /**
  * Created by Walen on 2015-11-21.

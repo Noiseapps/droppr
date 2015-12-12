@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
-
+apply plugin: 'com.google.gms.google-services'
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('gradle.properties').newDataInputStream())
@@ -93,6 +93,7 @@ dependencies {
     compile 'net.danlew:android.joda:2.8.1'
     compile 'com.google.android.gms:play-services:8.3.0'
     compile 'com.google.android.gms:play-services-maps:8.3.0'
+    compile 'com.google.android.gms:play-services-auth:8.3.0'
 }
 
 apt {

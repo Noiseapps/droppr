@@ -53,4 +53,7 @@
     <string name="requiresPermissions">W celu zachowania funkcjonalności, wymagane jest przyznanie uprawnień do uzyskiwania lokalizacji.</string>
     <string name="quit">Wyjdź</string>
     <string name="selectLocation">Wybierz miejsce wydarzenia</string>
+    <string name="serverApiKey">24532706524-aopb1njpu7mraqtlp9a8qbso3fltrns7.apps.googleusercontent.com</string>
+    <string name="googleLoginFailed">Logowanie kontem Google nie powiodło się!</string>
+    <string name="connection_not_successful">Połączenie nieudane!</string>
 </resources>

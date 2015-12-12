@@ -1,4 +1,4 @@
-package pl.siiletscode.droppr;
+package pl.siiletscode.droppr.adapters;
 
 import android.app.Activity;
 import android.app.ListActivity;
